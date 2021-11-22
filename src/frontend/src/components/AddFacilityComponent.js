@@ -39,17 +39,9 @@ class AddFacilityComponent extends Component {
             city: this.state.city,
         };
 
-        if (this.state.id === -1) {
-            FacilityService.createFacility(facility).then((res) => {
-                this.props.history.push("/facilities");
-            });
-        } else {
-            facility.id = this.state.id;
-
-            FacilityService.updateFacility(facility).then((res) => {
-                this.props.history.push("/facilities");
-            });
-        }
+        FacilityService.createFacility(facility).then((res) => {
+            this.props.history.push("/facilities");
+        });
     };
 
     cancel() {

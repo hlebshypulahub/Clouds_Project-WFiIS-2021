@@ -1,8 +1,10 @@
 const FACILITY_API_BASE_URL: string = "http://localhost:8080/facilities";
 
 type Facility = {
+    id: number;
     name: string;
     city: string;
+    employees: Array<object>;
 }
 
 class FacilityService {

@@ -31,7 +31,6 @@ class PutEmployeeComponent extends Component {
             EmployeeService.getEmployeeById(this.state.id).then((res) =>
                 res.json().then((data) => {
                     let employee = data;
-                    console.log(data);
                     this.setState({
                         name: employee.name,
                         position: employee.position,
@@ -46,28 +45,31 @@ class PutEmployeeComponent extends Component {
                 })
             );
         }
-
-        console.log(this.state.facility);
     }
 
     saveEmployee = (e) => {
         e.preventDefault();
 
-        let employee = {
-            name: this.state.name,
-            position: this.state.position,
-            facility: this.state.facility,
-        };
-
         if (this.state.id === -1) {
+            let employee = {
+                name: this.state.name,
+                position: this.state.position,
+            };
+
             EmployeeService.createEmployee(employee).then((res) => {
                 this.props.history.push("/employees");
             });
         } else {
+            let employee = {
+                name: this.state.name,
+                position: this.state.position,
+                facility: this.state.facility,
+            };
+
             employee.id = this.state.id;
 
             EmployeeService.updateEmployee(employee).then((res) => {
-                this.props.history.push("/employees");
+                this.props.history.goBack();
             });
         }
     };
@@ -90,6 +92,10 @@ class PutEmployeeComponent extends Component {
                 this.setState({ facility: data });
             })
         );
+    };
+
+    facilityLabel = () => {
+        return this.state.facility ? this.state.facility.name : "Facility";
     };
 
     render() {
@@ -132,11 +138,7 @@ class PutEmployeeComponent extends Component {
                                     {this.state.id !== -1 && (
                                         <DropdownButton
                                             style={{ paddingBottom: "20px" }}
-                                            title={
-                                                this.state.facility
-                                                    ? this.state.facility.name
-                                                    : "Facility"
-                                            }
+                                            title={this.facilityLabel()}
                                             id="dropdown-menu-align-right"
                                         >
                                             {this.state.facilities.map(

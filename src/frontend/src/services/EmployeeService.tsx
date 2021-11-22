@@ -13,6 +13,10 @@ class EmployeeService {
         return fetch(EMPLOYEE_API_BASE_URL);
     }
 
+    getEmployeesForFacility(name: string): Promise<Response> {
+        return fetch(EMPLOYEE_API_BASE_URL + "/for-" + name);
+    }
+
     createEmployee(employee: Employee): Promise<Response> {
         return fetch(EMPLOYEE_API_BASE_URL, {
             method: 'POST',

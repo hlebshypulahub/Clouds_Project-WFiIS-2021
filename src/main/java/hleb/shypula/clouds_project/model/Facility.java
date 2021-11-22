@@ -1,5 +1,6 @@
 package hleb.shypula.clouds_project.model;
 
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
@@ -7,6 +8,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 public class Facility {
 
     @Id
+    @GeneratedValue
     private long id;
 
     private String name;
@@ -19,6 +21,14 @@ public class Facility {
     public Facility(String name, String city) {
         this.name = name;
         this.city = city;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

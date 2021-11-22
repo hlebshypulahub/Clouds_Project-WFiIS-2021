@@ -57,7 +57,7 @@ class ListFacilityComponent extends Component {
                         </thead>
                         <tbody>
                             {this.state.facilities.map((facility) => (
-                                <tr key={facility.name}>
+                                <tr key={facility.id}>
                                     <td>{facility.name}</td>
                                     <td>{facility.city}</td>
                                     <td>
