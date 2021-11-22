@@ -1,0 +1,15 @@
+.my-box {
+    width: 100vw;
+
+    .my-1 {
+        float: left;
+    }
+
+    .my-2 {
+        float: right;
+
+        > * {
+            display: inline-block;
+        }
+    }
+}

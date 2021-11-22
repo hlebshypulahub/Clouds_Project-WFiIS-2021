@@ -7,6 +7,8 @@ import org.springframework.data.neo4j.core.schema.Node;
 public class Facility {
 
     @Id
+    private long id;
+
     private String name;
 
     private String city;
