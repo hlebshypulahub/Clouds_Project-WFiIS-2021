@@ -53,6 +53,7 @@ public class EmployeeController {
                                                        employee.setName(newEmployee.getName());
                                                        employee.setPosition(newEmployee.getPosition());
                                                        employee.setFacility(newEmployee.getFacility());
+                                                       employee.setCourses(newEmployee.getCourses());
                                                        return employeeRepository.save(employee);
                                                    })
                                                    .orElseGet(() -> {
