@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/facilities")
+@RequestMapping("/api/facilities")
 public class FacilityController {
 
     @Autowired

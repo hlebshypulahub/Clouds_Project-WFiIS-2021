@@ -1,4 +1,4 @@
-const FACILITY_API_BASE_URL: string = "http://localhost:8080/facilities";
+const FACILITY_API_BASE_URL: string = "/api/facilities";
 
 type Facility = {
     id: number;

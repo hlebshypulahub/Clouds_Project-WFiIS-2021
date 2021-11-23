@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/employees")
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
     @Autowired
@@ -32,6 +32,21 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable long id) {
         return ResponseEntity.ok(employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not exist: id = " + id)));
+    }
+
+    @GetMapping("/{id}/reset-courses")
+    public ResponseEntity<Map<String, Boolean>> resetCourses(@PathVariable long id) {
+        employeeRepository.resetCourses(id);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("courses reseted", true);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/hours-sum/{id}")
+    public int getEmployeeHoursSum(@PathVariable long id) {
+        return employeeRepository.getHoursSum(id);
     }
 
     @GetMapping("/for-{name}")

@@ -95,7 +95,13 @@ class PutEmployeeComponent extends Component {
     };
 
     facilityLabel = () => {
-        return this.state.facility ? this.state.facility.name : "Facility";
+        return !(
+            this.state.facility === null ||
+            (Object.keys(this.state.facility).length === 0 &&
+                this.state.facility.constructor === Object)
+        )
+            ? this.state.facility.name
+            : "Facility";
     };
 
     render() {

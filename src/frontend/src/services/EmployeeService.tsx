@@ -1,4 +1,4 @@
-const EMPLOYEE_API_BASE_URL: string = "http://localhost:8080/employees";
+const EMPLOYEE_API_BASE_URL: string = "/api/employees";
 
 type Employee = {
     id: number;
@@ -8,6 +8,10 @@ type Employee = {
 }
 
 class EmployeeService {
+
+    resetCourses(employeeId: number): Promise<Response> {
+        return fetch(EMPLOYEE_API_BASE_URL + "/" + employeeId + "/reset-courses");
+    }
 
     getEmployees(): Promise<Response> {
         return fetch(EMPLOYEE_API_BASE_URL);
@@ -41,6 +45,10 @@ class EmployeeService {
 
     getEmployeeById(employeeId: number): Promise<Response> {
         return fetch(EMPLOYEE_API_BASE_URL + "/" + employeeId);
+    }
+
+    getEmployeeHoursSum(employeeId: number): Promise<Response> {
+        return fetch(EMPLOYEE_API_BASE_URL + "/hours-sum/" + employeeId);
     }
 
     deleteEmployee(employeeId: number): Promise<Response> {

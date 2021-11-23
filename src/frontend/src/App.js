@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 import FooterComponent from "./components/FooterComponent";
 import HeaderComponent from "./components/HeaderComponent";
@@ -8,6 +8,7 @@ import ViewEmployeeComponent from "./components/ViewEmployeeComponent";
 import ListFacilityComponent from "./components/ListFacilityComponent";
 import AddFacilityComponent from "./components/AddFacilityComponent";
 import ViewFacilityComponent from "./components/ViewFacilityComponent";
+import AddCourseComponent from "./components/AddCourseComponent";
 
 import "./App.css";
 
@@ -34,6 +35,10 @@ function App() {
                         <Route
                             path="/add-employee"
                             component={PutEmployeeComponent}
+                        ></Route>
+                        <Route
+                            path="/employee/:id/add-course"
+                            component={AddCourseComponent}
                         ></Route>
                         <Route
                             path="/employee/:id"

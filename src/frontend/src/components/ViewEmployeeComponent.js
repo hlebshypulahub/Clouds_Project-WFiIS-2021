@@ -8,7 +8,10 @@ class ViewEmployeeComponent extends Component {
         this.state = {
             id: this.props.match.params.id,
             employee: {},
+            hoursSum: 0,
         };
+
+        this.resetCourses = this.resetCourses.bind(this);
     }
 
     componentDidMount() {
@@ -17,7 +20,25 @@ class ViewEmployeeComponent extends Component {
                 this.setState({ employee: data });
             })
         );
+
+        EmployeeService.getEmployeeHoursSum(this.state.id).then((res) =>
+            res.json().then((data) => {
+                this.setState({ hoursSum: data });
+            })
+        );
     }
+
+    resetCourses = (e) => {
+        e.preventDefault();
+
+        EmployeeService.resetCourses(this.state.id).then((res) => {
+            EmployeeService.getEmployeeHoursSum(this.state.id).then((res) =>
+                res.json().then((data) => {
+                    this.setState({ hoursSum: data });
+                })
+            );
+        });
+    };
 
     render() {
         return (
@@ -33,6 +54,16 @@ class ViewEmployeeComponent extends Component {
                             <label>Position: &nbsp;</label>
                             <div>{this.state.employee.position}</div>
                         </div>
+                        <div className="row">
+                            <label>Course hours sum: &nbsp;</label>
+                            <div>{this.state.hoursSum}</div>
+                        </div>
+                        <button
+                            className="btn btn-success"
+                            onClick={this.resetCourses}
+                        >
+                            Reset courses due to promotion
+                        </button>
                     </div>
                 </div>
             </div>

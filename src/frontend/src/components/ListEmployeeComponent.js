@@ -31,6 +31,10 @@ class ListEmployeeComponent extends Component {
         this.props.history.push(`/put-employee/${id}`);
     }
 
+    addCourse(id) {
+        this.props.history.push(`/employee/${id}/add-course`);
+    }
+
     viewEmployee(id) {
         this.props.history.push(`/employee/${id}`);
     }
@@ -71,6 +75,15 @@ class ListEmployeeComponent extends Component {
                                     <td>
                                         <button
                                             className="btn btn-info"
+                                            onClick={() =>
+                                                this.addCourse(employee.id)
+                                            }
+                                        >
+                                            Add course
+                                        </button>
+                                        <button
+                                            className="btn btn-info"
+                                            style={{ marginLeft: "10px" }}
                                             onClick={() =>
                                                 this.updateEmployee(employee.id)
                                             }
