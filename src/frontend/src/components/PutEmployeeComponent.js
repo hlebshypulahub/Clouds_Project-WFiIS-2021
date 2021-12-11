@@ -25,6 +25,12 @@ class PutEmployeeComponent extends Component {
     }
 
     componentDidMount() {
+        FacilityService.getFacilities().then((res) =>
+            res.json().then((data) => {
+                this.setState({ facilities: data });
+            })
+        );
+
         if (this.state.id === -1) {
             return;
         } else {
@@ -38,22 +44,26 @@ class PutEmployeeComponent extends Component {
                     });
                 })
             );
-
-            FacilityService.getFacilities().then((res) =>
-                res.json().then((data) => {
-                    this.setState({ facilities: data });
-                })
-            );
         }
     }
 
     saveEmployee = (e) => {
         e.preventDefault();
 
+        if (
+            this.state.name === "" ||
+            this.state.position === "" ||
+            (Object.keys(this.state.facility).length === 0 &&
+                this.state.facility.constructor === Object)
+        ) {
+            return;
+        }
+
         if (this.state.id === -1) {
             let employee = {
                 name: this.state.name,
                 position: this.state.position,
+                facility: this.state.facility,
             };
 
             EmployeeService.createEmployee(employee).then((res) => {
@@ -141,31 +151,29 @@ class PutEmployeeComponent extends Component {
                                             }
                                         />
                                     </div>
-                                    {this.state.id !== -1 && (
-                                        <DropdownButton
-                                            style={{ paddingBottom: "20px" }}
-                                            title={this.facilityLabel()}
-                                            id="dropdown-menu-align-right"
-                                        >
-                                            {this.state.facilities.map(
-                                                (fac, index) => {
-                                                    return (
-                                                        <Dropdown.Item
-                                                            key={fac.name}
-                                                            href=""
-                                                            onClick={() =>
-                                                                this.facilitySelectHandler(
-                                                                    fac.name
-                                                                )
-                                                            }
-                                                        >
-                                                            {fac.name}
-                                                        </Dropdown.Item>
-                                                    );
-                                                }
-                                            )}
-                                        </DropdownButton>
-                                    )}
+                                    <DropdownButton
+                                        style={{ paddingBottom: "20px" }}
+                                        title={this.facilityLabel()}
+                                        id="dropdown-menu-align-right"
+                                    >
+                                        {this.state.facilities.map(
+                                            (fac, index) => {
+                                                return (
+                                                    <Dropdown.Item
+                                                        key={fac.name}
+                                                        href=""
+                                                        onClick={() =>
+                                                            this.facilitySelectHandler(
+                                                                fac.name
+                                                            )
+                                                        }
+                                                    >
+                                                        {fac.name}
+                                                    </Dropdown.Item>
+                                                );
+                                            }
+                                        )}
+                                    </DropdownButton>
                                     <button
                                         className="btn btn-success"
                                         onClick={this.saveEmployee}

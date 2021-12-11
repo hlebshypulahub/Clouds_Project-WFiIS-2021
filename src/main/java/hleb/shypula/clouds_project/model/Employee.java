@@ -5,14 +5,12 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.util.Set;
-
 @Node
 public class Employee {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -21,17 +19,13 @@ public class Employee {
     @Relationship(type = "WORKS_IN", direction = Relationship.Direction.OUTGOING)
     private Facility facility;
 
-    @Relationship(type = "PARTICIPATED_IN", direction = Relationship.Direction.OUTGOING)
-    private Set<Course> courses;
-
     public Employee() {
     }
 
-    public Employee(String name, String position, Facility facility, Set<Course> courses) {
+    public Employee(String name, String position, Facility facility) {
         this.name = name;
         this.position = position;
         this.facility = facility;
-        this.courses = courses;
     }
 
     public long getId() {
@@ -64,13 +58,5 @@ public class Employee {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
-    }
-
-    public Set<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
     }
 }

@@ -3,76 +3,74 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 
 import EmployeeService from "../services/EmployeeService";
 import CourseService from "../services/CourseService";
+import FacilityService from "../services/FacilityService";
 
-class PutEmployeeComponent extends Component {
+class AddCourseComponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            id: this.props.match.params.id,
+            facilityName: this.props.match.params.name,
             name: "",
             hours: 0,
-            course: {},
             employee: {},
-            courses: [],
+            facility: {},
+            employees: [],
         };
 
         this.changeNameHandler = this.changeNameHandler.bind(this);
         this.changeHoursHandler = this.changeHoursHandler.bind(this);
-        this.courseSelectHandler = this.courseSelectHandler.bind(this);
-        this.saveEmployee = this.saveEmployee.bind(this);
+        this.employeeSelectHandler = this.employeeSelectHandler.bind(this);
+        this.saveCourse = this.saveCourse.bind(this);
     }
 
     componentDidMount() {
-        EmployeeService.getEmployeeById(this.state.id).then((res) =>
-            res.json().then((data) => {
-                let employee = data;
-                this.setState({
-                    employee,
+        FacilityService.getFacilityByName(this.state.facilityName).then(
+            (res) => {
+                res.json().then((data) => {
+                    let facility = data;
+                    this.setState({
+                        facility,
+                    });
                 });
-            })
+            }
         );
 
-        CourseService.getCourses().then((res) =>
-            res.json().then((data) => {
-                this.setState({ courses: data });
-            })
+        EmployeeService.getEmployeesForFacility(this.state.facilityName).then(
+            (res) => {
+                res.json().then((data) => {
+                    this.setState({ employees: data });
+                });
+            }
         );
     }
 
-    saveEmployee = (e) => {
+    saveCourse = (e) => {
         e.preventDefault();
 
         if (
-            (this.state.name === "" || this.state.hours === "") &&
-            Object.keys(this.state.course).length === 0 &&
-            this.state.course.constructor === Object
+            this.state.name === "" ||
+            this.state.hours === "" ||
+            (Object.keys(this.state.employee).length === 0 &&
+                this.state.employee.constructor === Object)
         ) {
             return;
         }
 
-        let course =
-            this.state.name === "" || this.state.hours === ""
-                ? this.state.course
-                : {
-                      name: this.state.name,
-                      hours: this.state.hours,
-                  };
-
-        let employee = {
-            ...this.state.employee,
-            courses: [...this.state.employee.courses, course],
+        let course = {
+            name: this.state.name,
+            hours: this.state.hours,
+            facility: this.state.facility,
+            employee: this.state.employee,
         };
 
-        employee.id = this.state.id;
-
-        EmployeeService.updateEmployee(employee).then((res) => {
+        CourseService.saveCourse(course).then((res) => {
             this.props.history.goBack();
         });
     };
 
     cancel() {
-        this.props.history.push("/employees");
+        this.props.history.push("/facilities");
     }
 
     changeNameHandler = (event) => {
@@ -83,21 +81,21 @@ class PutEmployeeComponent extends Component {
         this.setState({ hours: event.target.value });
     };
 
-    courseSelectHandler = (id) => {
-        CourseService.getCourseById(id).then((res) =>
+    employeeSelectHandler = (id) => {
+        EmployeeService.getEmployeeById(id).then((res) =>
             res.json().then((data) => {
-                this.setState({ course: data });
+                this.setState({ employee: data });
             })
         );
     };
 
-    courseLabel = () => {
+    employeeLabel = () => {
         return !(
-            Object.keys(this.state.course).length === 0 &&
-            this.state.course.constructor === Object
+            Object.keys(this.state.employee).length === 0 &&
+            this.state.employee.constructor === Object
         )
-            ? this.state.course.name
-            : "Existing course";
+            ? this.state.employee.name
+            : "Lecturer eymployee";
     };
 
     render() {
@@ -107,9 +105,8 @@ class PutEmployeeComponent extends Component {
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
                             <h3 className="text-center">
-                                Add a course for {this.state.employee.name}
+                                Add a course at {this.state.facility.name}
                             </h3>
-                            <h4 className="text-center">New course:</h4>
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
@@ -138,28 +135,30 @@ class PutEmployeeComponent extends Component {
                                     </div>
                                     <DropdownButton
                                         style={{ paddingBottom: "20px" }}
-                                        title={this.courseLabel()}
+                                        title={this.employeeLabel()}
                                         id="dropdown-menu-align-right"
                                     >
-                                        {this.state.courses.map((c, index) => {
-                                            return (
-                                                <Dropdown.Item
-                                                    key={c.id}
-                                                    href=""
-                                                    onClick={() =>
-                                                        this.courseSelectHandler(
-                                                            c.id
-                                                        )
-                                                    }
-                                                >
-                                                    {`${c.name} + ", hours: " + ${c.hours}`}
-                                                </Dropdown.Item>
-                                            );
-                                        })}
+                                        {this.state.employees.map(
+                                            (e, index) => {
+                                                return (
+                                                    <Dropdown.Item
+                                                        key={e.id}
+                                                        href=""
+                                                        onClick={() =>
+                                                            this.employeeSelectHandler(
+                                                                e.id
+                                                            )
+                                                        }
+                                                    >
+                                                        {e.name}
+                                                    </Dropdown.Item>
+                                                );
+                                            }
+                                        )}
                                     </DropdownButton>
                                     <button
                                         className="btn btn-success"
-                                        onClick={this.saveEmployee}
+                                        onClick={this.saveCourse}
                                     >
                                         Save
                                     </button>
@@ -180,4 +179,4 @@ class PutEmployeeComponent extends Component {
     }
 }
 
-export default PutEmployeeComponent;
+export default AddCourseComponent;

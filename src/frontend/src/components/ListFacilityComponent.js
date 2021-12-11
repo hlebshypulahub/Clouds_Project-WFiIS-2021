@@ -34,6 +34,10 @@ class ListFacilityComponent extends Component {
         this.props.history.push("/add-facility");
     }
 
+    addCourse(name) {
+        this.props.history.push(`/facility/${name}/add-course`);
+    }
+
     componentDidMount() {
         FacilityService.getFacilities().then((res) =>
             res.json().then((data) => {
@@ -62,13 +66,13 @@ class ListFacilityComponent extends Component {
                                     <td>{facility.city}</td>
                                     <td>
                                         <button
-                                            className="btn btn-danger"
+                                            className="btn btn-info"
                                             style={{ marginLeft: "10px" }}
                                             onClick={() =>
-                                                this.deleteFacility(facility.name)
+                                                this.addCourse(facility.name)
                                             }
                                         >
-                                            Delete
+                                            Add course
                                         </button>
                                         <button
                                             className="btn btn-info"
@@ -78,6 +82,17 @@ class ListFacilityComponent extends Component {
                                             }
                                         >
                                             View
+                                        </button>
+                                        <button
+                                            className="btn btn-danger"
+                                            style={{ marginLeft: "10px" }}
+                                            onClick={() =>
+                                                this.deleteFacility(
+                                                    facility.name
+                                                )
+                                            }
+                                        >
+                                            Delete
                                         </button>
                                     </td>
                                 </tr>

@@ -8,7 +8,8 @@ import ViewEmployeeComponent from "./components/ViewEmployeeComponent";
 import ListFacilityComponent from "./components/ListFacilityComponent";
 import AddFacilityComponent from "./components/AddFacilityComponent";
 import ViewFacilityComponent from "./components/ViewFacilityComponent";
-import AddCourseComponent from "./components/AddCourseComponent";
+import AddCourseToEmployeeComponent from "./components/AddCourseToEmployeeComponent";
+import AddCourseToFacilityComponent from "./components/AddCourseToFacilityComponent";
 
 import "./App.css";
 
@@ -38,7 +39,11 @@ function App() {
                         ></Route>
                         <Route
                             path="/employee/:id/add-course"
-                            component={AddCourseComponent}
+                            component={AddCourseToEmployeeComponent}
+                        ></Route>
+                        <Route
+                            path="/facility/:name/add-course"
+                            component={AddCourseToFacilityComponent}
                         ></Route>
                         <Route
                             path="/employee/:id"

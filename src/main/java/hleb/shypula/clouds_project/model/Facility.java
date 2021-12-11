@@ -9,7 +9,7 @@ public class Facility {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String name;
 
